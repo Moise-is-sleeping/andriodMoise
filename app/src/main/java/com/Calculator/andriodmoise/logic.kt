@@ -30,13 +30,12 @@ class Logic {
      * @return Returns the result of the operation between the 2 numbers
      */
     fun calculate( sign:String): Double? {
-        var total = 0.0
         //Uses the variable sign to check what operation to do.
-        when(sign){
-            "+"-> total = this.num1 + this.num2
-            "-"-> total = this.num1 - this.num2
-            "×"-> total = this.num1 * this.num2
-            "÷"-> total = this.num1 / this.num2
+        val total: Double = when(sign){
+            "+"-> this.num1 + this.num2
+            "-"-> this.num1 - this.num2
+            "×"-> this.num1 * this.num2
+            "÷"-> this.num1 / this.num2
             else -> return null
         }
         //Uses the function to round the result to 2 decimal points.
@@ -45,7 +44,7 @@ class Logic {
 
     /**
      * @param value The value to be rounded up.
-     * @exception  Exception Checks if the number has less then 2 decimal places.
+     * @exception  Exception If the number has less then 2 decimal places.
      * @return Returns the updated value.
      */
     private fun round(value:Double): Double {
@@ -67,7 +66,7 @@ class Logic {
      * @throws Exception If no number is introduced.
      * @return Returns the number as a double.
      */
-    fun toDouble(number:String): Double {
+    private fun toDouble(number:String): Double {
         return try {
             val numb = number.toDouble()
             numb

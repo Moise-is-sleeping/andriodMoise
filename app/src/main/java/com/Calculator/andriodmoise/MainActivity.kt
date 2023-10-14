@@ -51,6 +51,10 @@ class MainActivity : AppCompatActivity() {
             "-","+","×","÷"->{
                 //If no number has been pressed before an operation, en error messages is displayed using Toast.
                 if (displayedNumbers.isNotEmpty()){
+                    //If the function returns true the operation is done
+                    if (operateOrCalculate(displayedNumbers)){
+                        calculate()
+                    }
                     //Updates the sign to whatever operation has been pressed.
                     sign = button.text.toString()
                     //Uses the function to check whether a sign is present in order to replace.
@@ -68,17 +72,7 @@ class MainActivity : AppCompatActivity() {
             "=" ->{
                 //If no button has been pressed, an error message is Displayed using Toast.
                 if (displayedNumbers.isNotEmpty()){
-                    //Updates the numbers in the logic class
-                    logic.updatenumb(displayedNumbers,sign)
-                    //Calculates the result of the operation, then checks if the number to be displayed is a int or double
-                    try {
-                        displayedNumbers = intOrDouble( logic.calculate(sign).toString())
-                        //Resets the sign
-                        sign = ""
-                    }catch (e:Exception){
-                        Toast.makeText(applicationContext,"Number not present !!",Toast.LENGTH_SHORT).show()
-                    }
-
+                    calculate()
                 }else{
                     Toast.makeText(applicationContext,"Number not present !!",Toast.LENGTH_SHORT).show()
                 }
@@ -91,6 +85,43 @@ class MainActivity : AppCompatActivity() {
         //Displays the variable displayedNumbers on screen.
         display.text = displayedNumbers
     }
+
+    /**
+     * @throws Exception If the 2 numbers arent present
+     */
+    fun calculate(){
+        //Updates the numbers in the logic class
+        logic.updatenumb(displayedNumbers,sign)
+        //Calculates the result of the operation, then checks if the number to be displayed is a int or double
+        try {
+            displayedNumbers = intOrDouble( logic.calculate(sign).toString())
+            //Resets the sign
+            sign = ""
+        }catch (e:Exception){
+            Toast.makeText(applicationContext,"Number not present !!",Toast.LENGTH_SHORT).show()
+        }
+    }
+}
+
+/**
+ * @param text String to be checked.
+ * @return True if the string contains 2 numbers and an operation.
+ */
+fun operateOrCalculate(text: String): Boolean {
+    //Contains a list of signs.
+    val signs = listOf("-","+","×","÷")
+    //Contains the index of the sign
+    var signIndex = 0
+    for (sign in signs){
+        //Checks the string for a sign.
+        signIndex= text.indexOf(sign)
+        //If a sign is found the loop is broken.
+        if (signIndex > 0){
+            break
+        }
+    }
+    return signIndex > 0 && signIndex < text.length
+
 }
 
 /**
@@ -101,13 +132,13 @@ class MainActivity : AppCompatActivity() {
 fun changeSign(text : String,signo : String): String {
     //Contains a list of signs.
     val signs = listOf("-","+","×","÷")
-    //Contains the last character in the string.
+    //Contains the last character in the string.  
     val lastChar = text[text.lastIndex].toString()
     //If the last position of the string already has a sign, it gets replaced, otherwise it adds the sign to the string.
-    if (signs.contains(lastChar)){
-        return text.replace(lastChar,signo)
+    return if (signs.contains(lastChar)){
+        text.replace(lastChar,signo)
     }else{
-        return text+signo
+        text+signo
     }
 
 
