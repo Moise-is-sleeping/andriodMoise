@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.Calculator.andriodmoise"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.Calculator.andriodmoise"

@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
     private var buttonList = mutableListOf<Button>()
     private var sign = ""
     private var logic = Logic()
+    private var checkdecimal = true
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity() {
     private fun buttonClick(button: Button){
         //Uses the text in the button to identify what button has been pressed.
         when(button.text){
-            "1","2","3","4","5","6","7","8","9","0","."->{
+            "1","2","3","4","5","6","7","8","9","0"->{
                 displayedNumbers += button.text
             }
             "-","+","×","÷"->{
@@ -59,9 +60,12 @@ class MainActivity : AppCompatActivity() {
                     sign = button.text.toString()
                     //Uses the function to check whether a sign is present in order to replace.
                     displayedNumbers = changeSign(displayedNumbers,sign)
+                    checkdecimal = true
+
                 }else{
                     Toast.makeText(applicationContext,"Number not present !!",Toast.LENGTH_SHORT).show()
                 }
+
 
             }
             "C" ->{
@@ -73,6 +77,9 @@ class MainActivity : AppCompatActivity() {
                 //If no button has been pressed, an error message is Displayed using Toast.
                 if (displayedNumbers.isNotEmpty()){
                     calculate()
+                    if (displayedNumbers.contains(".")){
+                        checkdecimal = false
+                    }
                 }else{
                     Toast.makeText(applicationContext,"Number not present !!",Toast.LENGTH_SHORT).show()
                 }
@@ -81,6 +88,13 @@ class MainActivity : AppCompatActivity() {
             "Del"->{
                 displayedNumbers = displayedNumbers.dropLast(1)
             }
+            "."->{
+                if(checkdecimal){
+                    displayedNumbers += button.text
+                    checkdecimal = false
+                }
+            }
+
         }
         //Displays the variable displayedNumbers on screen.
         display.text = displayedNumbers
@@ -120,7 +134,7 @@ fun operateOrCalculate(text: String): Boolean {
             break
         }
     }
-    return signIndex > 0 && signIndex < text.length
+    return signIndex > 0 && signIndex < text.length-1
 
 }
 
@@ -156,3 +170,8 @@ fun intOrDouble(value : String): String {
         value
     }
 }
+
+
+
+
+

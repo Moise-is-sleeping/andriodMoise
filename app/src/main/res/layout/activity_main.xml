@@ -16,7 +16,6 @@
             android:id="@+id/screen"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/material_dynamic_neutral80"
             android:text=""
             android:textSize="55dp"
             android:layout_margin="5dp"
