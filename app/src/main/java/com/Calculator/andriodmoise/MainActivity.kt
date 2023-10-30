@@ -86,7 +86,11 @@ class MainActivity : AppCompatActivity() {
             }
             //Deletes the last character that's being displayed.
             "Del"->{
+                if(displayedNumbers[displayedNumbers.length-1].toString() == "."){
+                    checkdecimal = true
+                }
                 displayedNumbers = displayedNumbers.dropLast(1)
+
             }
             "."->{
                 if(checkdecimal){
